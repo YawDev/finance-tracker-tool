@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import type { Transaction } from "../utils/Types";
+import AppContext from "../utils/Context";
 
 const TransactionListItem = ({
   transaction,
@@ -12,6 +13,25 @@ const TransactionListItem = ({
   >;
   setModalIsOpen: (boolean: boolean) => void;
 }) => {
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error(
+      "TransactionListItem must be used within an AppContext Provider",
+    );
+  }
+
+  const { transactionList, setTransactionList } = context;
+
+  const handleDeleteItem = (transactionToDelete: Transaction) => {
+    window.confirm("Are you sure you want to delete this transaction?") &&
+      deleteItem(transactionToDelete);
+  };
+  const deleteItem = (transactionToDelete: Transaction) => {
+    const updatedItem = transactionList.filter(
+      (transaction) => transaction.id !== transactionToDelete.id,
+    );
+    setTransactionList(updatedItem);
+  };
   return (
     <tr className="transaction-row" key={transaction.id}>
       <td>{transaction.name}</td>
@@ -22,6 +42,7 @@ const TransactionListItem = ({
       <td>
         <div className="action-buttons">
           <button
+            className="edit-btn"
             onClick={() => {
               setEditMode({ isEdit: true, transaction });
               setModalIsOpen(true);
@@ -30,7 +51,12 @@ const TransactionListItem = ({
             Edit
           </button>
 
-          <button>Delete</button>
+          <button
+            className="delete-btn"
+            onClick={() => handleDeleteItem(transaction)}
+          >
+            Delete
+          </button>
         </div>
       </td>
     </tr>

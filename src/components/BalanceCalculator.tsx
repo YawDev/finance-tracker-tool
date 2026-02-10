@@ -10,7 +10,7 @@ const BalanceCalculator = () => {
       const total = context.transactionList.reduce((acc, transaction) => {
         return acc + transaction.amount;
       }, 0);
-      context.setTotalSpent(total);
+      context.setTotalSpent(Math.round(total * 100) / 100);
     }
   }, [context]);
 

@@ -23,28 +23,32 @@ const TransactionListView = ({
         <h2 className="transaction-title">Transactions</h2>
         <AddTransactionButton setModalIsOpen={setModalIsOpen} />
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactionList.map((transaction, index) => (
-            <TransactionListItem
-              key={index}
-              transaction={transaction}
-              setEditMode={setEditMode}
-              setModalIsOpen={setModalIsOpen}
-            />
-          ))}
-        </tbody>
-      </table>
+      {transactionList?.length === 0 ? (
+        <p>No transactions available.</p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactionList.map((transaction) => (
+              <TransactionListItem
+                key={transaction.id}
+                transaction={transaction}
+                setEditMode={setEditMode}
+                setModalIsOpen={setModalIsOpen}
+              />
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

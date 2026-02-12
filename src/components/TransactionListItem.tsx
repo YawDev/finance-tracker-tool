@@ -36,7 +36,7 @@ const TransactionListItem = ({
     <tr className="transaction-row" key={transaction.id}>
       <td>{transaction.name}</td>
       <td>{transaction.description}</td>
-      <td>{transaction.amount}</td>
+      <td>${transaction.amount.toFixed(2)}</td>
       <td>{transaction.date}</td>
       <td>{transaction.type.name}</td>
       <td>

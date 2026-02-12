@@ -4,14 +4,25 @@ import Button from "react-bootstrap/Button";
 import type { Transaction } from "../utils/Types";
 import AppContext from "../utils/Context";
 import { useContext, useEffect, useState } from "react";
+import { validateField } from "../utils/FormValidator";
+
+type NumberFormField = {
+  value: string;
+  error: string | null;
+}
+
+type TextFormField = {
+  value: string;
+  error: string | null;
+}
 
 type FormState = {
   fieldsUnchanged: boolean;
   formInput: {
-    name: string;
-    description: string;
-    amount: number;
-    date: string; // or Date depending on your needs
+    name: TextFormField;
+    description: TextFormField;
+    amount: NumberFormField;
+    date: TextFormField; // or Date depending on your needs
   };
 };
 
@@ -28,10 +39,10 @@ const AddOrEditModal = ({
   const [formState, setFormState] = useState<FormState>({
     fieldsUnchanged: true,
     formInput: {
-      name: "",
-      description: "",
-      amount: 0,
-      date: new Date().toDateString(),
+      name: { value: "", error: null },
+      description: { value: "", error: null },
+      amount: { value: "", error: null },
+      date: { value: new Date("yyyy-MM-dd").toDateString(), error: null },
     },
   });
 
@@ -41,10 +52,10 @@ const AddOrEditModal = ({
       setFormState({
         fieldsUnchanged: true,
         formInput: {
-          name: editMode.transaction.name || "",
-          description: editMode.transaction.description || "",
-          amount: editMode.transaction.amount || 0,
-          date: editMode.transaction.date || new Date().toDateString(),
+          name: { value: editMode.transaction.name || "", error: null },
+          description: { value: editMode.transaction.description || "", error: null },
+          amount: { value: editMode.transaction.amount ? editMode.transaction.amount.toString() : "", error: null },
+          date: { value: editMode.transaction.date || new Date().toISOString(), error: null },
         },
       });
     } else {
@@ -52,10 +63,10 @@ const AddOrEditModal = ({
       setFormState({
         fieldsUnchanged: true,
         formInput: {
-          name: "",
-          description: "",
-          amount: 0,
-          date: new Date().toDateString(),
+          name: { value: "", error: null },
+          description: { value: "", error: null },
+          amount: { value: "", error: null },
+          date: { value: new Date().toISOString(), error: null },
         },
       });
     }
@@ -68,6 +79,44 @@ const AddOrEditModal = ({
   }
 
   const { transactionList, setTransactionList } = context;
+
+
+  const handleFieldChange = (field : any , value : string | number, shouldFormat: boolean = false) => 
+  {
+       const validationResult = validateField(field, value);
+       if(!validationResult.isValid)
+       {
+          setFormState((prevState) => ({
+            ...prevState,
+            formInput: {
+              ...prevState.formInput,
+              [field]: { value, error: validationResult.errorMessage || null },
+            },
+          }));
+       }
+       else
+       {
+          // Only format on blur if there are more than 2 decimal places
+          if(field === "amount" && shouldFormat && value !== "")
+          {
+              const numValue = parseFloat(value.toString());
+              const decimalPart = value.toString().split('.')[1];
+              // Only round if there are more than 2 decimal places
+              if(decimalPart && decimalPart.length > 2) {
+                  value = (Math.round(numValue * 100) / 100).toString();
+              }
+              // Otherwise keep the user's input as-is (preserving trailing zeros)
+          }
+          
+          setFormState((prevState) => ({
+              ...prevState,
+                 formInput: {
+                  ...prevState.formInput,
+                  [field]: { value, error: null },
+                },
+             }));
+       }
+  }
 
   const handleAddOrEditTransaction = () => {
     if (editMode.isEdit && editMode.transaction) {
@@ -85,10 +134,10 @@ const AddOrEditModal = ({
       if (transaction.id === item.id) {
         return {
           ...transaction,
-          name: formState.formInput.name,
-          description: formState.formInput.description,
-          amount: formState.formInput.amount,
-          date: formState.formInput.date,
+          name: formState.formInput.name.value,
+          description: formState.formInput.description.value,
+          amount: parseFloat(parseFloat(formState.formInput.amount.value).toFixed(2)),
+          date: formState.formInput.date.value,
         };
       }
       return transaction;
@@ -98,16 +147,17 @@ const AddOrEditModal = ({
 
   const AddNewItem = () => {
     const newItem = {
-      name: formState.formInput.name,
-      description: formState.formInput.description,
-      amount: formState.formInput.amount,
-      date: formState.formInput.date,
+      name: formState.formInput.name.value,
+      description: formState.formInput.description.value,
+      amount: parseFloat(parseFloat(formState.formInput.amount.value).toFixed(2)),
+      date: formState.formInput.date.value,
       id: crypto.randomUUID(),
       type: { name: "Expense" },
     };
     setTransactionList([...transactionList, newItem as Transaction]);
   };
 
+ 
   return (
     <>
       <Modal
@@ -134,13 +184,13 @@ const AddOrEditModal = ({
                 type="text"
                 id="Name"
                 placeholder="Enter transaction name"
-                value={formState.formInput.name}
+                value={formState.formInput.name.value}
                 onChange={(e) => {
                   setFormState((prevState) => ({
                     ...prevState,
                     formInput: {
                       ...prevState.formInput,
-                      name: e.target.value,
+                      name: { value: e.target.value, error: null },
                     },
                   }));
                 }}
@@ -153,13 +203,13 @@ const AddOrEditModal = ({
                 type="text"
                 id="Description"
                 placeholder="Enter description"
-                value={formState.formInput.description}
+                value={formState.formInput.description.value}
                 onChange={(e) => {
                   setFormState((prevState) => ({
                     ...prevState,
                     formInput: {
                       ...prevState.formInput,
-                      description: e.target.value,
+                      description: { value: e.target.value, error: null },
                     },
                   }));
                 }}
@@ -173,31 +223,26 @@ const AddOrEditModal = ({
                 id="Amount"
                 placeholder="0.00"
                 step="0.01"
-                value={formState.formInput.amount}
-                onChange={(e) => {
-                  setFormState((prevState) => ({
-                    ...prevState,
-                    formInput: {
-                      ...prevState.formInput,
-                      amount: parseFloat(e.target.value),
-                    },
-                  }));
-                }}
-              />
+                value={formState.formInput.amount.value}
+                onChange={(e) => handleFieldChange("amount", e.target.value, false)}
+                onBlur={(e) => {handleFieldChange("amount", e.target.value, true)}}             
+                 />
             </Form.Group>
-
+            {formState.formInput.amount.error && (
+              <span className="error-message">{formState.formInput.amount.error}</span>
+            )}
             <Form.Group className="mb-3">
               <Form.Label htmlFor="Date">Date: </Form.Label>
               <Form.Control
                 type="date"
                 id="Date"
-                value={formState.formInput.date}
+                value={formState.formInput.date.value}
                 onChange={(e) => {
                   setFormState((prevState) => ({
                     ...prevState,
                     formInput: {
                       ...prevState.formInput,
-                      date: e.target.value,
+                      date: { value: e.target.value, error: null },
                     },
                   }));
                 }}
@@ -214,10 +259,10 @@ const AddOrEditModal = ({
               setFormState({
                 fieldsUnchanged: true,
                 formInput: {
-                  name: "",
-                  description: "",
-                  amount: 0,
-                  date: new Date().toISOString(),
+                  name: { value: "", error: null },
+                  description: { value: "", error: null },
+                  amount: { value: "", error: null },
+                  date: { value: new Date("yyyy-MM-dd").toDateString(), error: null },
                 },
               });
               handleCloseModal();
@@ -233,10 +278,10 @@ const AddOrEditModal = ({
               setFormState({
                 fieldsUnchanged: true,
                 formInput: {
-                  name: "",
-                  description: "",
-                  amount: 0,
-                  date: new Date().toISOString(),
+                  name: { value: "", error: null },
+                  description: { value: "", error: null },
+                  amount: { value: "", error: null },
+                  date: { value: new Date("yyyy-MM-dd").toDateString(), error: null },
                 },
               });
               handleCloseModal();

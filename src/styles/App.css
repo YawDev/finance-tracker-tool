@@ -402,3 +402,9 @@ h1 {
 .modal-body .form-control:hover {
   border-color: #a7f3d0 !important;
 }
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}

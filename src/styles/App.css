@@ -364,6 +364,21 @@ h1 {
   transform: translateY(0) !important;
 }
 
+.modal-submit-btn:disabled {
+  background-color: #9ca3af !important;
+  border: none !important;
+  color: #d1d5db !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.modal-submit-btn:disabled:hover {
+  background-color: #9ca3af !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
 /* Modal Form Styling */
 .modal-body .form-group {
   margin-bottom: 1.5rem;

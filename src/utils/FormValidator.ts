@@ -23,6 +23,10 @@ export const validateField = (
     return validateDate(value as string);
   }
 
+  if (field === "type") {
+    return validateType(value as string);
+  }
+
   return {
     isValid: !!value,
     errorMessage: value ? "" : `${field} is required`,
@@ -86,6 +90,13 @@ const validateDate = (value: string): ValidationResult => {
     return { isValid: false, errorMessage: "Date is required" };
   }
 
-  console.log("Validating date:", value); // Debugging log
+  return { isValid: true, errorMessage: "" };
+};
+
+const validateType = (value: string): ValidationResult => {
+  if (value.trim().length === 0) {
+    return { isValid: false, errorMessage: "Transaction type is required" };
+  }
+
   return { isValid: true, errorMessage: "" };
 };

@@ -380,10 +380,37 @@ h1 {
 }
 
 /* Modal Form Styling */
+.transaction-modal .form-group,
 .modal-body .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
+.transaction-modal .mb-3,
+.modal-body .mb-3 {
+  margin-bottom: 0.5rem !important;
+}
+
+/* Error message styling */
+.transaction-modal .error-message,
+.modal-body .error-message {
+  display: block;
+  color: #ef4444;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: -0.5rem !important;
+  margin-bottom: 1rem !important;
+  padding-left: 0 !important;
+}
+
+/* Reduce spacing when error message follows a form control */
+.transaction-modal .form-control + .error-message,
+.transaction-modal .form-select + .error-message,
+.modal-body .form-control + .error-message,
+.modal-body .form-select + .error-message {
+  margin-top: 0.25rem !important;
+}
+
+.transaction-modal .form-label,
 .modal-body .form-label {
   color: #065f46 !important;
   font-weight: 600 !important;
@@ -393,7 +420,10 @@ h1 {
   letter-spacing: 0.5px !important;
 }
 
-.modal-body .form-control {
+.transaction-modal .form-control,
+.transaction-modal .form-select,
+.modal-body .form-control,
+.modal-body .form-select {
   border: 2px solid #d1fae5 !important;
   border-radius: 8px !important;
   padding: 0.75rem !important;
@@ -402,20 +432,72 @@ h1 {
   background-color: #f0fdf4 !important;
 }
 
-.modal-body .form-control:focus {
+.transaction-modal .form-control:focus,
+.transaction-modal .form-select:focus,
+.modal-body .form-control:focus,
+.modal-body .form-select:focus {
   border-color: #22c55e !important;
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1) !important;
   background-color: #ffffff !important;
   outline: none !important;
 }
 
+.transaction-modal .form-control::placeholder,
 .modal-body .form-control::placeholder {
   color: #9ca3af !important;
   opacity: 0.7 !important;
 }
 
-.modal-body .form-control:hover {
+.transaction-modal .form-control:hover,
+.transaction-modal .form-select:hover,
+.modal-body .form-control:hover,
+.modal-body .form-select:hover {
   border-color: #a7f3d0 !important;
+}
+
+/* Dropdown options styling (limited browser support) */
+.transaction-modal .form-select option {
+  background-color: #ffffff !important;
+  color: #065f46 !important;
+  padding: 0.5rem !important;
+}
+
+.transaction-modal .form-select option:hover,
+.transaction-modal .form-select option:focus {
+  background-color: #f0fdf4 !important;
+  color: #22c55e !important;
+}
+
+.transaction-modal .form-select option:checked {
+  background-color: #22c55e !important;
+  color: #ffffff !important;
+}
+
+/* Modal Form Select/Dropdown Styling */
+.transaction-modal .modal-body select.form-select {
+  border: 2px solid #d1fae5 !important;
+  border-radius: 8px !important;
+  padding: 0.75rem !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+  background-color: #f0fdf4 !important;
+}
+
+.transaction-modal .modal-body select.form-select:focus {
+  border-color: #22c55e !important;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1) !important;
+  background-color: #ffffff !important;
+  outline: none !important;
+}
+
+.transaction-modal .modal-body select.form-select:hover {
+  border-color: #a7f3d0 !important;
+}
+
+.transaction-modal .form-type-option {
+  background-color: #ffffff !important;
+  color: #065f46 !important;
+  padding: 0.5rem !important;
 }
 
 .error-message {

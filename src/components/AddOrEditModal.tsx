@@ -2,9 +2,11 @@ import Modal from "react-modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import type { Transaction } from "../utils/Types";
+import { TransactionTypes } from "../utils/Types";
 import AppContext from "../utils/Context";
 import { useContext, useEffect, useState } from "react";
 import { validateField } from "../utils/FormValidator";
+import { FormGroup } from "react-bootstrap";
 
 type NumberFormField = {
   value: string;
@@ -23,6 +25,7 @@ type FormState = {
     description: TextFormField;
     amount: NumberFormField;
     date: TextFormField; // or Date depending on your needs
+    type: TextFormField;
   };
 };
 
@@ -43,6 +46,7 @@ const AddOrEditModal = ({
       description: { value: "", error: null },
       amount: { value: "", error: null },
       date: { value: new Date().toISOString().split("T")[0], error: null },
+      type: { value: "", error: null },
     },
   });
 
@@ -69,6 +73,7 @@ const AddOrEditModal = ({
               new Date().toISOString().split("T")[0],
             error: null,
           },
+          type: { value: editMode.transaction.type.name || "", error: null },
         },
       });
     } else {
@@ -80,6 +85,7 @@ const AddOrEditModal = ({
           description: { value: "", error: null },
           amount: { value: "", error: null },
           date: { value: new Date().toISOString().split("T")[0], error: null },
+          type: { value: "", error: null },
         },
       });
     }
@@ -153,6 +159,7 @@ const AddOrEditModal = ({
             parseFloat(formState.formInput.amount.value).toFixed(2),
           ),
           date: formState.formInput.date.value,
+          type: { name: formState.formInput.type.value },
         };
       }
       return transaction;
@@ -169,7 +176,7 @@ const AddOrEditModal = ({
       ),
       date: formState.formInput.date.value,
       id: crypto.randomUUID(),
-      type: { name: "Expense" },
+      type: { name: formState.formInput.type.value },
     };
     setTransactionList([...transactionList, newItem as Transaction]);
   };
@@ -233,7 +240,6 @@ const AddOrEditModal = ({
                 {formState.formInput.description.error}
               </span>
             )}
-
             <Form.Group className="mb-3">
               <Form.Label htmlFor="Amount">Amount ($): </Form.Label>
               <Form.Control
@@ -271,12 +277,36 @@ const AddOrEditModal = ({
                 }}
               />
             </Form.Group>
+            {formState.formInput.date.error && (
+              <span className="error-message">
+                {formState.formInput.date.error}
+              </span>
+            )}
+            <FormGroup className="mb-3">
+              <Form.Label htmlFor="Type">Transaction Type: </Form.Label>
+              <Form.Select
+                className="form-select"
+                id="Type"
+                value={formState.formInput.type.value}
+                onChange={(e) =>
+                  handleFieldChange("type", e.target.value, false)
+                }
+                onBlur={(e) => handleFieldChange("type", e.target.value, false)}
+              >
+                <option value="">Select Type</option>
+                {TransactionTypes.map((type) => (
+                  <option key={type.name} value={type.name}>
+                    {type.name}
+                  </option>
+                ))}
+              </Form.Select>
+            </FormGroup>
+            {formState.formInput.type.error && (
+              <span className="error-message">
+                {formState.formInput.type.error}
+              </span>
+            )}
           </Form>
-          {formState.formInput.date.error && (
-            <span className="error-message">
-              {formState.formInput.date.error}
-            </span>
-          )}
         </div>
 
         <div className="modal-footer">
@@ -294,6 +324,7 @@ const AddOrEditModal = ({
                     value: new Date().toISOString().split("T")[0],
                     error: null,
                   },
+                  type: { value: "", error: null },
                 },
               });
               handleCloseModal();
@@ -316,6 +347,7 @@ const AddOrEditModal = ({
                     value: new Date().toISOString().split("T")[0],
                     error: null,
                   },
+                  type: { value: "", error: null },
                 },
               });
               handleCloseModal();
@@ -326,8 +358,11 @@ const AddOrEditModal = ({
               !!formState.formInput.description.error ||
               !!formState.formInput.amount.error ||
               !!formState.formInput.date.error ||
+              !!formState.formInput.type.error ||
               !formState.formInput.name.value.trim() ||
-              !formState.formInput.amount.value.trim()
+              !formState.formInput.amount.value.trim() ||
+              !formState.formInput.date.value.trim() ||
+              !formState.formInput.type.value.trim()
             }
           >
             {editMode.isEdit ? "Update Transaction" : "Create Transaction"}

@@ -16,6 +16,7 @@ function App() {
       type: { name: "Expense" },
     },
   ]);
+  const [query, setQuery] = useState("");
 
   return (
     <>
@@ -25,6 +26,8 @@ function App() {
           setTotalSpent,
           transactionList,
           setTransactionList,
+          query,
+          setQuery,
         }}
       >
         <h1 className="app-title">Finance Tracker Tool</h1>

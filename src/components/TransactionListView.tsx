@@ -17,13 +17,30 @@ const TransactionListView = ({
   const context = useContext(AppContext);
   const transactionList = context ? context.transactionList : [];
 
+  // Placeholder for future filtering logic
+  var query = ""; // This would come from a search input in the future
+  var filteredTransactions = transactionList.filter((transaction) => {
+    return (
+      transaction.name
+        .toLowerCase()
+        .includes(context?.query.toLowerCase() || "") ||
+      transaction.description
+        .toLowerCase()
+        .includes(context?.query.toLowerCase() || "") ||
+      transaction.type.name
+        .toLowerCase()
+        .includes(context?.query.toLowerCase() || "") ||
+      transaction.amount.toString().includes(context?.query || "")
+    );
+  });
+
   return (
     <div className="transaction-list-container">
       <div className="transaction-header">
         <h2 className="transaction-title">Transactions</h2>
         <AddTransactionButton setModalIsOpen={setModalIsOpen} />
       </div>
-      {transactionList?.length === 0 ? (
+      {filteredTransactions?.length === 0 ? (
         <p>No transactions available.</p>
       ) : (
         <table>
@@ -38,7 +55,7 @@ const TransactionListView = ({
             </tr>
           </thead>
           <tbody>
-            {transactionList.map((transaction) => (
+            {filteredTransactions.map((transaction) => (
               <TransactionListItem
                 key={transaction.id}
                 transaction={transaction}

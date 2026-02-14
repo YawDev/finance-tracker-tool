@@ -6,6 +6,8 @@ export interface ITrackerContext {
   setTotalSpent: (value: number) => void;
   transactionList: Transaction[];
   setTransactionList: (value: Transaction[]) => void;
+  query: string;
+  setQuery: (value: string) => void;
 }
 
 const AppContext = createContext<ITrackerContext | null>(null);

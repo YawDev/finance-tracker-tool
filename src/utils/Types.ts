@@ -32,3 +32,9 @@ export const TransactionTypes: ITransactionType[] = [
   { name: "Flight Cost" },
   { name: "Miscellaneous" },
 ];
+
+export type IPagination = {
+  itemsPerPage: number;
+  totalItems: number;
+  currentPage: number;
+};

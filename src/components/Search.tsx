@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import AppContext from "../utils/Context";
 
-const SearchBar = ({}: { keyword: string; handleOnChange: () => void }) => {
+const SearchBar = () => {
   const context = useContext(AppContext);
 
   return (

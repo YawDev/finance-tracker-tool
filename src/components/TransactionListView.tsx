@@ -1,9 +1,13 @@
-import React from "react";
-import type { Transaction } from "../utils/Types";
+import React, { useEffect, useMemo } from "react";
+import type { IPagination, Transaction } from "../utils/Types";
 import TransactionListItem from "./TransactionListItem";
 import AddTransactionButton from "./AddTransactionButton";
 import { useContext } from "react";
 import AppContext from "../utils/Context";
+import SearchBar from "./Search";
+import { useState } from "react";
+import Pagination from "./Pagination";
+import { FilterList, GetCurrentItems } from "../utils/Filtering";
 
 const TransactionListView = ({
   setEditMode,
@@ -16,10 +20,13 @@ const TransactionListView = ({
 }) => {
   const context = useContext(AppContext);
   const transactionList = context ? context.transactionList : [];
+  const [paginationData, setPaginationData] = useState<IPagination>({
+    itemsPerPage: 5,
+    totalItems: transactionList?.length ?? 0,
+    currentPage: 1,
+  });
 
-  // Placeholder for future filtering logic
-  var query = ""; // This would come from a search input in the future
-  var filteredTransactions = transactionList.filter((transaction) => {
+  const filteredTransactions = transactionList.filter((transaction) => {
     return (
       transaction.name
         .toLowerCase()
@@ -34,11 +41,26 @@ const TransactionListView = ({
     );
   });
 
+  useEffect(() => {
+    if (filteredTransactions) {
+      setPaginationData((prev) => ({
+        ...prev,
+        totalItems: filteredTransactions.length,
+        // We might need to reset to page 1 if data changes
+        currentPage: 1,
+      }));
+    }
+  }, [filteredTransactions.length]);
+
+  const currentItems = GetCurrentItems(filteredTransactions, paginationData);
   return (
     <div className="transaction-list-container">
       <div className="transaction-header">
         <h2 className="transaction-title">Transactions</h2>
         <AddTransactionButton setModalIsOpen={setModalIsOpen} />
+      </div>
+      <div className="search-bar-container">
+        <SearchBar />
       </div>
       {filteredTransactions?.length === 0 ? (
         <p>No transactions available.</p>
@@ -55,7 +77,7 @@ const TransactionListView = ({
             </tr>
           </thead>
           <tbody>
-            {filteredTransactions.map((transaction) => (
+            {currentItems.map((transaction) => (
               <TransactionListItem
                 key={transaction.id}
                 transaction={transaction}
@@ -66,6 +88,10 @@ const TransactionListView = ({
           </tbody>
         </table>
       )}
+      <Pagination
+        paginationData={paginationData}
+        setPaginationData={setPaginationData}
+      />
     </div>
   );
 };

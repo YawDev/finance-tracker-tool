@@ -10,6 +10,15 @@
   margin-top: 2rem;
 }
 
+/* Mobile responsiveness for main container */
+@media (max-width: 768px) {
+  .finance-view-container {
+    margin: 1rem;
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+}
+
 .balance-calculator-container {
   background: #ffffff;
   padding: 3rem;
@@ -17,6 +26,14 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   max-width: 500px;
   margin: 0 auto;
+}
+
+/* Mobile responsiveness for balance container */
+@media (max-width: 768px) {
+  .balance-calculator-container {
+    padding: 2rem 1.5rem;
+    margin: 0 1rem;
+  }
 }
 
 .balance-calculator-container h3 {
@@ -36,6 +53,13 @@
     system-ui,
     -apple-system,
     sans-serif;
+}
+
+/* Mobile responsiveness for main heading */
+@media (max-width: 768px) {
+  .balance-calculator-container h3 {
+    font-size: 1.8rem;
+  }
 }
 
 /* Balance Calculator Layout Divisions */
@@ -74,6 +98,17 @@
   line-height: 1;
 }
 
+/* Mobile responsiveness for amount display */
+@media (max-width: 768px) {
+  .currency {
+    font-size: 1.2rem;
+  }
+
+  .amount {
+    font-size: 2rem;
+  }
+}
+
 .balance-subtitle {
   display: block;
   color: #6b7280;
@@ -99,9 +134,23 @@ h1 {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Mobile responsiveness for h1 */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+}
+
 #root {
   min-height: 100vh;
   padding: 2rem;
+}
+
+/* Mobile responsiveness for root */
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
 }
 
 /* Transaction List Table Styling */
@@ -113,6 +162,15 @@ h1 {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   margin-top: 2rem;
+  overflow-x: auto;
+}
+
+/* Mobile responsiveness for transaction container */
+@media (max-width: 768px) {
+  .transaction-list-container {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
 }
 
 .transaction-list-container h2 {
@@ -126,6 +184,14 @@ h1 {
   background-clip: text;
 }
 
+/* Mobile responsiveness for transaction heading */
+@media (max-width: 768px) {
+  .transaction-list-container h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+}
+
 .transaction-list-container table {
   width: 100%;
   border-collapse: collapse;
@@ -133,6 +199,15 @@ h1 {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  min-width: 600px;
+}
+
+/* Mobile table responsiveness */
+@media (max-width: 768px) {
+  .transaction-list-container table {
+    min-width: 500px;
+    font-size: 0.875rem;
+  }
 }
 
 .transaction-list-container table th {
@@ -146,11 +221,27 @@ h1 {
   letter-spacing: 0.5px;
 }
 
+/* Mobile table header responsiveness */
+@media (max-width: 768px) {
+  .transaction-list-container table th {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
 .transaction-list-container table td {
   padding: 1rem;
   border-bottom: 1px solid #e5e7eb;
   color: #4b5563;
   font-size: 0.95rem;
+}
+
+/* Mobile table cell responsiveness */
+@media (max-width: 768px) {
+  .transaction-list-container table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+  }
 }
 
 .transaction-list-container table tbody tr:hover {
@@ -194,6 +285,16 @@ h1 {
   margin-bottom: 1.5rem;
 }
 
+/* Mobile responsiveness for transaction header */
+@media (max-width: 768px) {
+  .transaction-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
 .transaction-title {
   margin: 0;
   margin-top: 0.3rem;
@@ -217,6 +318,18 @@ h1 {
   font-size: 1rem;
   transition: all 0.3s ease;
   color: #065f46;
+}
+
+/* Mobile responsiveness for search bar */
+@media (max-width: 768px) {
+  .search-bar-container {
+    margin-bottom: 1rem;
+  }
+
+  .search-bar-container input[type="text"] {
+    max-width: 100%;
+    font-size: 0.9rem;
+  }
 }
 
 .search-bar-container input[type="text"]:focus {
@@ -246,6 +359,14 @@ h1 {
   gap: 0.5rem;
 }
 
+/* Mobile responsiveness for pagination */
+@media (max-width: 768px) {
+  .pagination {
+    margin: 1.5rem 0;
+    gap: 0.25rem;
+  }
+}
+
 .page-item {
   margin: 0;
 }
@@ -264,6 +385,15 @@ h1 {
   font-weight: 500;
   min-width: 40px;
   text-align: center;
+}
+
+/* Mobile responsiveness for pagination links */
+@media (max-width: 768px) {
+  .page-link {
+    padding: 0.4rem 0.6rem;
+    min-width: 32px;
+    font-size: 0.875rem;
+  }
 }
 
 .page-link:hover {
@@ -312,6 +442,15 @@ h1 {
   outline: none;
 }
 
+/* Mobile responsiveness for modal */
+@media (max-width: 768px) {
+  .transaction-modal {
+    width: 95%;
+    max-width: 400px;
+    border-radius: 12px;
+  }
+}
+
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -320,11 +459,25 @@ h1 {
   border-bottom: 1px solid #e5e7eb;
 }
 
+/* Mobile responsiveness for modal header */
+@media (max-width: 768px) {
+  .modal-header {
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+  }
+}
+
 .modal-header h2 {
   margin: 0;
   color: #065f46;
   font-size: 1.5rem;
   font-weight: 600;
+}
+
+/* Mobile responsiveness for modal title */
+@media (max-width: 768px) {
+  .modal-header h2 {
+    font-size: 1.25rem;
+  }
 }
 
 .close-button {
@@ -346,6 +499,13 @@ h1 {
   padding: 2rem;
 }
 
+/* Mobile responsiveness for modal body */
+@media (max-width: 768px) {
+  .modal-body {
+    padding: 1.5rem;
+  }
+}
+
 .modal-footer {
   display: flex;
   justify-content: flex-end;
@@ -354,10 +514,25 @@ h1 {
   border-top: 1px solid #e5e7eb;
 }
 
+/* Mobile responsiveness for modal footer */
+@media (max-width: 768px) {
+  .modal-footer {
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+    gap: 0.75rem;
+  }
+}
+
 /* Action Buttons Styling */
 .action-buttons {
   display: flex;
   gap: 0.5rem;
+}
+
+/* Mobile responsiveness for action buttons */
+@media (max-width: 768px) {
+  .action-buttons {
+    gap: 0.25rem;
+  }
 }
 
 .edit-btn {
@@ -371,6 +546,14 @@ h1 {
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(20, 184, 166, 0.3);
+}
+
+/* Mobile responsiveness for edit button */
+@media (max-width: 768px) {
+  .edit-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+  }
 }
 
 .edit-btn:hover {
@@ -394,6 +577,14 @@ h1 {
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(248, 113, 113, 0.3);
+}
+
+/* Mobile responsiveness for delete button */
+@media (max-width: 768px) {
+  .delete-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+  }
 }
 
 .delete-btn:hover {

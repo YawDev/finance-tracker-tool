@@ -8,6 +8,7 @@ import SearchBar from "./Search";
 import { useState } from "react";
 import Pagination from "./Pagination";
 import { FilterList, GetCurrentItems } from "../utils/Filtering";
+import SelectItemsPerPage from "./SelectItemsPerPage";
 
 const TransactionListView = ({
   setEditMode,
@@ -59,34 +60,44 @@ const TransactionListView = ({
         <h2 className="transaction-title">Transactions</h2>
         <AddTransactionButton setModalIsOpen={setModalIsOpen} />
       </div>
-      <div className="search-bar-container">
-        <SearchBar />
+      <div className="controls-row">
+        <div className="search-bar-container">
+          <SearchBar />
+        </div>
+        <div className="select-items-per-page">
+          <SelectItemsPerPage
+            paginationData={paginationData}
+            setPaginationData={setPaginationData}
+          />
+        </div>
       </div>
       {filteredTransactions?.length === 0 ? (
         <p>No transactions available.</p>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.map((transaction) => (
-              <TransactionListItem
-                key={transaction.id}
-                transaction={transaction}
-                setEditMode={setEditMode}
-                setModalIsOpen={setModalIsOpen}
-              />
-            ))}
-          </tbody>
-        </table>
+        <div className="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentItems.map((transaction) => (
+                <TransactionListItem
+                  key={transaction.id}
+                  transaction={transaction}
+                  setEditMode={setEditMode}
+                  setModalIsOpen={setModalIsOpen}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
       <Pagination
         paginationData={paginationData}

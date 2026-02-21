@@ -38,3 +38,8 @@ export type IPagination = {
   totalItems: number;
   currentPage: number;
 };
+
+export interface IConfirmDeleteModal {
+  isOpen: boolean;
+  transaction: Transaction | null;
+}

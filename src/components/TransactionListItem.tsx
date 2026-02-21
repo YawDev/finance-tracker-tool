@@ -1,36 +1,26 @@
-import React, { useContext } from "react";
-import type { Transaction } from "../utils/Types";
-import AppContext from "../utils/Context";
+import type { IConfirmDeleteModal, Transaction } from "../utils/Types";
 
 const TransactionListItem = ({
   transaction,
   setEditMode,
   setModalIsOpen,
+  setConfirmDeleteModalData,
 }: {
   transaction: Transaction;
   setEditMode: React.Dispatch<
     React.SetStateAction<{ isEdit: boolean; transaction: Transaction | null }>
   >;
   setModalIsOpen: (boolean: boolean) => void;
+  setConfirmDeleteModalData: React.Dispatch<
+    React.SetStateAction<IConfirmDeleteModal>
+  >;
 }) => {
-  const context = useContext(AppContext);
-  if (!context) {
-    throw new Error(
-      "TransactionListItem must be used within an AppContext Provider",
-    );
-  }
-
-  const { transactionList, setTransactionList } = context;
-
   const handleDeleteItem = (transactionToDelete: Transaction) => {
-    window.confirm("Are you sure you want to delete this transaction?") &&
-      deleteItem(transactionToDelete);
-  };
-  const deleteItem = (transactionToDelete: Transaction) => {
-    const updatedItem = transactionList.filter(
-      (transaction) => transaction.id !== transactionToDelete.id,
-    );
-    setTransactionList(updatedItem);
+    setConfirmDeleteModalData((prev: IConfirmDeleteModal) => ({
+      ...prev,
+      isOpen: true,
+      transaction: transactionToDelete,
+    }));
   };
   return (
     <tr className="transaction-row" key={transaction.id}>

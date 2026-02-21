@@ -29,9 +29,7 @@ const SelectItemsPerPage = ({
       <select
         id="items-per-page"
         value={selectedValue}
-        onChange={(e) =>
-          handleSelectChange(e.target.value as unknown as number)
-        }
+        onChange={(e) => handleSelectChange(Number(e.target.value))}
         className="items-per-page-select"
       >
         {dropDownValues.map((dropDownItem, index) => (

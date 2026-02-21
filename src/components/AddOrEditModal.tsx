@@ -180,7 +180,6 @@ const AddOrEditModal = ({
     };
     setTransactionList([...transactionList, newItem as Transaction]);
   };
-  console.log("Form state:", formState); // Debugging log
   return (
     <>
       <Modal

@@ -1,5 +1,9 @@
 import React, { useEffect, useMemo } from "react";
-import type { IPagination, Transaction } from "../utils/Types";
+import type {
+  IConfirmDeleteModal,
+  IPagination,
+  Transaction,
+} from "../utils/Types";
 import TransactionListItem from "./TransactionListItem";
 import AddTransactionButton from "./AddTransactionButton";
 import { useContext } from "react";
@@ -13,11 +17,15 @@ import SelectItemsPerPage from "./SelectItemsPerPage";
 const TransactionListView = ({
   setEditMode,
   setModalIsOpen,
+  setConfirmDeleteModalData,
 }: {
   setEditMode: React.Dispatch<
     React.SetStateAction<{ isEdit: boolean; transaction: Transaction | null }>
   >;
   setModalIsOpen: (boolean: boolean) => void;
+  setConfirmDeleteModalData: React.Dispatch<
+    React.SetStateAction<IConfirmDeleteModal>
+  >;
 }) => {
   const context = useContext(AppContext);
   const transactionList = context ? context.transactionList : [];
@@ -93,6 +101,7 @@ const TransactionListView = ({
                   transaction={transaction}
                   setEditMode={setEditMode}
                   setModalIsOpen={setModalIsOpen}
+                  setConfirmDeleteModalData={setConfirmDeleteModalData}
                 />
               ))}
             </tbody>

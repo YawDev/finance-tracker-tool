@@ -5,7 +5,7 @@ import { useState } from "react";
 import AppContext from "./utils/Context";
 
 function App() {
-  const [totalSpent, setTotalSpent] = useState(2);
+  const [totalSpent, setTotalSpent] = useState(0);
   const [transactionList, setTransactionList] = useState<Transaction[]>([
     {
       id: "uuid",

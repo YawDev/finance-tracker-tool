@@ -7,27 +7,7 @@ import AppContext from "../utils/Context";
 import { useContext, useEffect, useState } from "react";
 import { validateField } from "../utils/FormValidator";
 import { FormGroup } from "react-bootstrap";
-
-type NumberFormField = {
-  value: string;
-  error: string | null;
-};
-
-type TextFormField = {
-  value: string;
-  error: string | null;
-};
-
-type FormState = {
-  Untouched: boolean;
-  formInput: {
-    name: TextFormField;
-    description: TextFormField;
-    amount: NumberFormField;
-    date: TextFormField; // or Date depending on your needs
-    type: TextFormField;
-  };
-};
+import type { FormState } from "../utils/FormTypes";
 
 const AddOrEditModal = ({
   modalIsOpen,
